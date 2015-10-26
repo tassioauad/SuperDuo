@@ -25,14 +25,14 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     /**
      * Fragment managing the behaviors, interactions and presentation of the navigation drawer.
      */
-    private NavigationDrawerFragment navigationDrawerFragment;
+    private NavigationDrawerFragment mNavigationDrawerFragment;
 
     /**
      * Used to store the last screen title. For use in {@link #restoreActionBar()}.
      */
-    private CharSequence title;
+    private CharSequence mTitle;
     public static boolean IS_TABLET = false;
-    private BroadcastReceiver messageReciever;
+    private BroadcastReceiver mMessageReciever;
 
     public static final String MESSAGE_EVENT = "MESSAGE_EVENT";
     public static final String MESSAGE_KEY = "MESSAGE_EXTRA";
@@ -41,23 +41,23 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         IS_TABLET = isTablet();
-        if(IS_TABLET){
+        if (IS_TABLET) {
             setContentView(R.layout.activity_main_tablet);
-        }else {
+        } else {
             setContentView(R.layout.activity_main);
         }
 
-        messageReciever = new MessageReciever();
+        mMessageReciever = new MessageReciever();
         IntentFilter filter = new IntentFilter(MESSAGE_EVENT);
-        LocalBroadcastManager.getInstance(this).registerReceiver(messageReciever,filter);
+        LocalBroadcastManager.getInstance(this).registerReceiver(mMessageReciever, filter);
 
-        navigationDrawerFragment = (NavigationDrawerFragment)
+        mNavigationDrawerFragment = (NavigationDrawerFragment)
                 getSupportFragmentManager().findFragmentById(R.id.navigation_drawer);
-        title = getTitle();
+        mTitle = getTitle();
 
         // Set up the drawer.
-        navigationDrawerFragment.setUp(R.id.navigation_drawer,
-                    (DrawerLayout) findViewById(R.id.drawer_layout));
+        mNavigationDrawerFragment.setUp(R.id.navigation_drawer,
+                (DrawerLayout) findViewById(R.id.drawer_layout));
     }
 
     @Override
@@ -66,7 +66,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment nextFragment;
 
-        switch (position){
+        switch (position) {
             default:
             case 0:
                 nextFragment = new ListOfBooks();
@@ -82,25 +82,25 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
         fragmentManager.beginTransaction()
                 .replace(R.id.container, nextFragment)
-                .addToBackStack((String) title)
+                .addToBackStack((String) mTitle)
                 .commit();
     }
 
     public void setTitle(int titleId) {
-        title = getString(titleId);
+        mTitle = getString(titleId);
     }
 
     public void restoreActionBar() {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
         actionBar.setDisplayShowTitleEnabled(true);
-        actionBar.setTitle(title);
+        actionBar.setTitle(mTitle);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        if (!navigationDrawerFragment.isDrawerOpen()) {
+        if (!mNavigationDrawerFragment.isDrawerOpen()) {
             // Only show items in the action bar relevant to this screen
             // if the drawer is not showing. Otherwise, let the drawer
             // decide what to show in the action bar.
@@ -128,7 +128,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     @Override
     protected void onDestroy() {
-        LocalBroadcastManager.getInstance(this).unregisterReceiver(messageReciever);
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(mMessageReciever);
         super.onDestroy();
     }
 
@@ -141,7 +141,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
         fragment.setArguments(args);
 
         int id = R.id.container;
-        if(findViewById(R.id.right_container) != null){
+        if (findViewById(R.id.right_container) != null) {
             id = R.id.right_container;
         }
         getSupportFragmentManager().beginTransaction()
@@ -154,13 +154,13 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
     private class MessageReciever extends BroadcastReceiver {
         @Override
         public void onReceive(Context context, Intent intent) {
-            if(intent.getStringExtra(MESSAGE_KEY)!=null){
+            if (intent.getStringExtra(MESSAGE_KEY) != null) {
                 Toast.makeText(MainActivity.this, intent.getStringExtra(MESSAGE_KEY), Toast.LENGTH_LONG).show();
             }
         }
     }
 
-    public void goBack(View view){
+    public void goBack(View view) {
         getSupportFragmentManager().popBackStack();
     }
 
@@ -172,7 +172,7 @@ public class MainActivity extends ActionBarActivity implements NavigationDrawerF
 
     @Override
     public void onBackPressed() {
-        if(getSupportFragmentManager().getBackStackEntryCount()<2){
+        if (getSupportFragmentManager().getBackStackEntryCount() < 2) {
             finish();
         }
         super.onBackPressed();

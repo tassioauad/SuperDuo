@@ -21,14 +21,14 @@ public class BookListAdapter extends CursorAdapter {
 
 
     public static class ViewHolder {
-        public final ImageView bookCover;
-        public final TextView bookTitle;
-        public final TextView bookSubTitle;
+        public final ImageView mBookCover;
+        public final TextView mBookTitle;
+        public final TextView mBookSubTitle;
 
         public ViewHolder(View view) {
-            bookCover = (ImageView) view.findViewById(R.id.fullBookCover);
-            bookTitle = (TextView) view.findViewById(R.id.listBookTitle);
-            bookSubTitle = (TextView) view.findViewById(R.id.listBookSubTitle);
+            mBookCover = (ImageView) view.findViewById(R.id.fullBookCover);
+            mBookTitle = (TextView) view.findViewById(R.id.listBookTitle);
+            mBookSubTitle = (TextView) view.findViewById(R.id.listBookSubTitle);
         }
     }
 
@@ -42,13 +42,13 @@ public class BookListAdapter extends CursorAdapter {
         ViewHolder viewHolder = (ViewHolder) view.getTag();
 
         String imgUrl = cursor.getString(cursor.getColumnIndex(AlexandriaContract.BookEntry.IMAGE_URL));
-        new DownloadImage(viewHolder.bookCover).execute(imgUrl);
+        new DownloadImage(viewHolder.mBookCover).execute(imgUrl);
 
         String bookTitle = cursor.getString(cursor.getColumnIndex(AlexandriaContract.BookEntry.TITLE));
-        viewHolder.bookTitle.setText(bookTitle);
+        viewHolder.mBookTitle.setText(bookTitle);
 
         String bookSubTitle = cursor.getString(cursor.getColumnIndex(AlexandriaContract.BookEntry.SUBTITLE));
-        viewHolder.bookSubTitle.setText(bookSubTitle);
+        viewHolder.mBookSubTitle.setText(bookSubTitle);
     }
 
     @Override
