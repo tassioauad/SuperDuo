@@ -89,7 +89,7 @@ public class Utilies {
     }
 
     public static String getDayName(long dateInMillis, String todayWord, String tomorrowWord, String yesterdayWord) {
-        //If the date is today, return the localized version of "Today" instead of the actual day name.
+        //If the mDate is today, return the localized version of "Today" instead of the actual day name.
         Time time = new Time();
         time.setToNow();
         int julianDay = Time.getJulianDay(dateInMillis, time.gmtoff);

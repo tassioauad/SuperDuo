@@ -30,7 +30,7 @@
             android:gravity="center"
             android:textColor="@android:color/black"
             tools:text="Bahia" />
-        
+
     </LinearLayout>
 
     <LinearLayout

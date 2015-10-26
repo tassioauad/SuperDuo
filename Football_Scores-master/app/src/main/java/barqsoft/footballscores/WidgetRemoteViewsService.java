@@ -22,48 +22,48 @@ public class WidgetRemoteViewsService extends RemoteViewsService {
 
         return new RemoteViewsFactory() {
 
-            private Cursor data = null;
+            private Cursor mData = null;
 
             @Override
             public void onCreate() { /* no code */ }
 
             @Override
             public void onDataSetChanged() {
-                if (data != null) {
-                    data.close();
+                if (mData != null) {
+                    mData.close();
                 }
                 long identityToken = Binder.clearCallingIdentity();
-                data = getContentResolver().query(DatabaseContract.BASE_CONTENT_URI, null, null, null, null);
+                mData = getContentResolver().query(DatabaseContract.BASE_CONTENT_URI, null, null, null, null);
                 Binder.restoreCallingIdentity(identityToken);
             }
 
             @Override
             public void onDestroy() {
-                if (data != null) {
-                    data.close();
-                    data = null;
+                if (mData != null) {
+                    mData.close();
+                    mData = null;
                 }
             }
 
             @Override
             public int getCount() {
-                return data == null ? 0 : data.getCount();
+                return mData == null ? 0 : mData.getCount();
             }
 
             @Override
             public RemoteViews getViewAt(int position) {
-                if (position == AdapterView.INVALID_POSITION || data == null || !data.moveToPosition(position)) {
+                if (position == AdapterView.INVALID_POSITION || mData == null || !mData.moveToPosition(position)) {
                     return null;
                 }
 
                 RemoteViews views = new RemoteViews(getPackageName(), R.layout.widget_scores_list_item);
-                int homeGoals = data.getInt(ScoresDBHelper.HOME_GOALS_COL_INDEX);
-                int awayGoals = data.getInt(ScoresDBHelper.AWAY_GOALS_COL_INDEX);
+                int homeGoals = mData.getInt(ScoresDBHelper.HOME_GOALS_COL_INDEX);
+                int awayGoals = mData.getInt(ScoresDBHelper.AWAY_GOALS_COL_INDEX);
                 String scores = Utilies.getScores(awayGoals, homeGoals);
-                String homeName = data.getString(ScoresDBHelper.HOME_COL_INDEX);
-                String awayName = data.getString(ScoresDBHelper.AWAY_COL_INDEX);
-                String timeString = data.getString(ScoresDBHelper.TIME_COL_INDEX);
-                String dateString = data.getString(ScoresDBHelper.DATE_COL_INDEX);
+                String homeName = mData.getString(ScoresDBHelper.HOME_COL_INDEX);
+                String awayName = mData.getString(ScoresDBHelper.AWAY_COL_INDEX);
+                String timeString = mData.getString(ScoresDBHelper.TIME_COL_INDEX);
+                String dateString = mData.getString(ScoresDBHelper.DATE_COL_INDEX);
 
                 String dateTimeString = timeString;
                 if (!TextUtils.isEmpty(dateString)) {
@@ -119,8 +119,8 @@ public class WidgetRemoteViewsService extends RemoteViewsService {
 
             @Override
             public long getItemId(int position) {
-                if (data.moveToPosition(position)) {
-                    return data.getLong(ScoresDBHelper.MATCH_ID_COL_INDEX);
+                if (mData.moveToPosition(position)) {
+                    return mData.getLong(ScoresDBHelper.MATCH_ID_COL_INDEX);
                 }
                 return position;
             }
