@@ -18,6 +18,17 @@ public class ScoresDBHelper extends SQLiteOpenHelper
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
     }
 
+    public static final double _ID_INDEX = 0;
+    public static final int DATE_COL_INDEX = 1;
+    public static final int TIME_COL_INDEX = 2;
+    public static final int HOME_COL_INDEX = 3;
+    public static final int AWAY_COL_INDEX = 4;
+    public static final int LEAGUE_COL_INDEX = 5;
+    public static final int HOME_GOALS_COL_INDEX = 6;
+    public static final int AWAY_GOALS_COL_INDEX = 7;
+    public static final int MATCH_ID_COL_INDEX = 8;
+    public static final int MATCH_DAY_COL_INDEX = 9;
+
     @Override
     public void onCreate(SQLiteDatabase db)
     {
